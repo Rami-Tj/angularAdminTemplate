@@ -19,8 +19,8 @@ import {DefaultLayoutComponent} from './containers';
 
 import {P404Component} from './views/error/404.component';
 import {P500Component} from './views/error/500.component';
-import {LoginComponent} from './views/login/login.component';
-import {RegisterComponent} from './views/register/register.component';
+import {LoginComponent} from './auth/login/login.component';
+import {RegisterComponent} from './auth/register/register.component';
 
 const APP_CONTAINERS = [
   DefaultLayoutComponent
@@ -41,9 +41,10 @@ import {AppRoutingModule} from './app.routing';
 import {BsDropdownModule} from 'ngx-bootstrap/dropdown';
 import {TabsModule} from 'ngx-bootstrap/tabs';
 import {ChartsModule} from 'ng2-charts/ng2-charts';
-import {environment} from "../environments/environment";
+import {environment} from '../environments/environment';
 import {HttpClientInMemoryWebApiModule} from 'angular-in-memory-web-api';
-import {MockApiService} from "./mock-api/mock-api.service";
+import {MockApiService} from './mock-api/mock-api.service';
+import {SharedModule} from './shared/shared.module';
 
 @NgModule({
   imports: [
@@ -61,19 +62,20 @@ import {MockApiService} from "./mock-api/mock-api.service";
     BsDropdownModule.forRoot(),
     TabsModule.forRoot(),
     ChartsModule,
+    SharedModule,
   ],
   declarations: [
     AppComponent,
     ...APP_CONTAINERS,
     P404Component,
     P500Component,
-    LoginComponent,
-    RegisterComponent
   ],
-  providers: [{
-    provide: LocationStrategy,
-    useClass: HashLocationStrategy
-  }],
+  providers: [
+    {
+      provide: LocationStrategy,
+      useClass: HashLocationStrategy
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {

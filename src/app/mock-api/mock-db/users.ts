@@ -6,7 +6,6 @@ export class UsersFakeDb {
       password: 'demo',
       email: 'admin@demo.com',
       accessToken: 'access-token-' + Math.random(),
-      refreshToken: 'access-token-' + Math.random(),
       roles: ['ADMIN'],
       pic: './assets/app/media/img/users/user4.jpg',
       fullname: 'Mark Andre'
@@ -17,7 +16,6 @@ export class UsersFakeDb {
       password: 'demo',
       email: 'user@demo.com',
       accessToken: 'access-token-' + Math.random(),
-      refreshToken: 'access-token-' + Math.random(),
       roles: ['USER'],
       pic: './assets/app/media/img/users/user3.jpg',
       fullname: 'Megan'
@@ -28,7 +26,6 @@ export class UsersFakeDb {
     {
       id: 1,
       accessToken: 'access-token-' + Math.random(),
-      refreshToken: 'access-token-' + Math.random()
     }
   ];
 }
