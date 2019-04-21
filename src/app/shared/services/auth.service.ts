@@ -5,7 +5,7 @@ import {Credentials} from '../models/credentials';
 import {AccessData} from '../models/access-data';
 import {catchError, map, tap} from 'rxjs/operators';
 import {TokenStorageService} from './token-storage.service';
-import {Router} from "@angular/router";
+import {Router} from '@angular/router';
 
 @Injectable({
   providedIn: 'root'

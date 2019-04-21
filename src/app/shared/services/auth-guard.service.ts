@@ -2,7 +2,6 @@ import {Injectable} from '@angular/core';
 import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree} from '@angular/router';
 import {Observable} from 'rxjs';
 import {TokenStorageService} from './token-storage.service';
-import {of} from 'rxjs/internal/observable/of';
 import {map} from 'rxjs/operators';
 
 @Injectable()
@@ -16,24 +15,22 @@ export class AuthGuardService implements CanActivate {
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     const loginURL = route.data.permissions.loginURL;
     const nonAuthorisationURL = route.data.permissions.authorisationURL;
-    const roules = route.data.permissions.only;
-    let access: boolean;
+    const roles = route.data.permissions.only;
+    let access = false;
     this.isLogged().subscribe(isLogged => {
       if (isLogged) {
-        this.isAuthorized(roules).subscribe(isAuthorized => {
+        this.isAuthorized(roles).subscribe(isAuthorized => {
           if (isAuthorized) {
             console.log('canActivate return true');
             access = true;
           } else {
             console.log('user don\'t have permission');
-            access = false;
             this.router.navigateByUrl(nonAuthorisationURL);
           }
         });
       } else {
         console.log('nobody is logged');
-        access = false;
-        this.router.navigateByUrl(loginURL);
+        this.router.navigateByUrl(loginURL).then();
       }
     });
     return access;
@@ -50,8 +47,26 @@ export class AuthGuardService implements CanActivate {
   private isAuthorized(roules: string[]): Observable<boolean> {
     return this.tokenStorage.getUserRoles().pipe(
       map(res => {
-        return roules.includes(res[0]);
+        return this.checkRoles(roules, res);
       })
     );
+  }
+
+  private checkRoles(authorizedRoles: string[], userRoles: string | string[]): boolean {
+    if (userRoles instanceof Array) {
+      console.log('userRoles type array');
+      for (let i = 0; i < userRoles.length; i++) {
+        if (authorizedRoles.includes(userRoles[i])) {
+          console.log('one match');
+          return true;
+          break;
+        }
+        console.log('zero match');
+        return false;
+      }
+    } else {
+      console.log('userRoles type other');
+      return authorizedRoles.includes(userRoles);
+    }
   }
 }

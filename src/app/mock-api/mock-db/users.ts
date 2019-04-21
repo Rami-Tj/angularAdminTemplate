@@ -6,7 +6,7 @@ export class UsersFakeDb {
       password: 'demo',
       email: 'admin@demo.com',
       accessToken: 'access-token-' + Math.random(),
-      roles: ['ADMIN'],
+      roles: ['ADMIN', 'USER'],
       pic: './assets/app/media/img/users/user4.jpg',
       fullname: 'Mark Andre'
     },
